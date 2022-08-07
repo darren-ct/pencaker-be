@@ -9,6 +9,8 @@ const { QueryTypes } = require('sequelize');
 const {sendErr} = require("../helper/other");
 const {getMonth} = require("../helper/other");
 
+var dateDifference = require('date-difference');
+
 
 require("dotenv").config();
 
@@ -244,8 +246,17 @@ const retreiveJob = async(userId,jobId,res) => {
 
 const getMyJobs = async(req,res) => {
 const id = req.user.id
-const query = `
+const now = new Date();
 
+const query = `
+     SELECT job.company_id , job.id , job.position, job.status AS job_status, job.updatedAt,
+     transaction.status AS transaction_status, COUNT(apply.member_id) AS personSubmitted
+     FROM job LEFT JOIN transaction
+     ON job.id = transaction.job_id AND job.company_id = ${id} 
+     LEFT JOIN apply
+     ON job.id = apply.job_id
+     GROUP BY job.id
+     
 `;
 
     try {
@@ -253,10 +264,30 @@ const query = `
         const result = await sequelize.query(
             query , {type:QueryTypes.SELECT}
          );
+        const filteredResult = result.filter(item => item.company_id == id)
+
+
+        const myJobs = filteredResult.map(job => {
+            return {
+                  id : job.id,
+                  position: job.position,
+                  transaction_status : !job.transaction_status ? "Not Paid" : job.transaction_status,
+                  job_status : job.transaction_status === "pending" ? "pending" : job.job_status,
+                  submitted : job.job_status === "active" ? `${job.personSubmitted} Person` : null,
+                  duration : job.job_status === "active" ? `${dateDifference(job.updatedAt,now)} / 30 days` : null
+
+            }
+        });
+
+        return res.status(201).send({
+            status : "Success",
+            jobs : myJobs
+        })
 
 
 
     } catch(err) {
+        console.log(err)
          sendErr("Server error",res)
     };
 
