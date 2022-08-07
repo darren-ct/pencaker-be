@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize("hackathon","root","mysql.mik.158",{
-    host:"localhost",
+    host:"https://pencaker-be.herokuapp.com",
     port:3306,
     dialect:"mysql"
 });
