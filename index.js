@@ -3,7 +3,6 @@ const cors = require("cors");
 
 const app = express();
 
-require("dotenv").config();
 
 // Connect
 const sequelize = require("./config/connect");
