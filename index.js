@@ -32,6 +32,6 @@ app.use("/",require("./routes/user"));
 
 
 // listen
-app.listen(process.env.PORT,()=>{
+app.listen(process.env.PORT || 3000,()=>{
      console.log("Connected")
 });
