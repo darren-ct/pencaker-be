@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const {sendErr} = require("../helper/other")
 
-require("dotenv");
+require('dotenv').config();
 
 module.exports = async(req,res,next) => {
        const bearer = req.headers.authorization;
