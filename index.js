@@ -3,6 +3,8 @@ const cors = require("cors");
 
 const app = express();
 
+require("dotenv").config();
+
 // Connect
 const sequelize = require("./config/connect");
 const verifyJWT = require("./middlewares/verifyJWT");
@@ -30,6 +32,6 @@ app.use("/",require("./routes/user"));
 
 
 // listen
-app.listen(5000,()=>{
+app.listen(process.env.PORT,()=>{
      console.log("Connected")
 });
