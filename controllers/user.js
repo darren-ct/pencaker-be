@@ -82,7 +82,7 @@ const getMyImage = async(req,res) => {
 
         return res.status(201).send({
             status : "Success",
-            image: process.env.SERVER_URL + user.image
+            image: user.image ? process.env.SERVER_URL + user.image : null
         })
 
     } catch (err) {
