@@ -292,6 +292,42 @@ const query = `
          sendErr("Server error",res)
     };
 
+};
+
+const getMyJob = async(req,res) => {
+
+const userId = req.user.id
+const jobId = req.params.id
+
+const query = `
+    SELECT user.name, user.email
+    FROM job INNER JOIN apply
+    ON job.id = apply.job_id AND job.id = ${jobId} AND job.company_id = ${userId}
+    INNER JOIN user
+    ON apply.member_id = user.id
+`;
+    
+    try {
+        
+        const result = await sequelize.query(
+            query , {type:QueryTypes.SELECT}
+         );
+        
+        return res.status(201).send({
+            status:"Success",
+            applyers : result
+        });
+        
+    } catch(err) {
+        
+        console.log(err)
+         sendErr("Server error",res)
+       
+    };
+    
+ 
+    
+    
 }
 
 const postJob = async(req,res) => {
@@ -395,5 +431,5 @@ const getAppliedJobs = async(req,res) => {
     };
 };
 
-module.exports = {getJob,getJobs,postJob,applyJob,getMyJobs,getAppliedJobs}
+module.exports = {getJob,getJobs,postJob,applyJob,getMyJobs,getMyJob,getAppliedJobs}
 
