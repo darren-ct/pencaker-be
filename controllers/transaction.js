@@ -29,7 +29,7 @@ const getAllTransactions = async(req,res) => {
             query , {type:QueryTypes.SELECT}
          );
 
-         let total = 0;
+         let total = 0
  
          const transactions = result.map(transaction => {
             return {
