@@ -389,6 +389,7 @@ const getAppliedJobs = (req,res) => {
         })
         
     } catch(err) {
+          console.log(err);
           return sendErr("Server error",res)
     };
 };
