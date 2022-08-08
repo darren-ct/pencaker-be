@@ -29,6 +29,8 @@ const getAllTransactions = async(req,res) => {
             query , {type:QueryTypes.SELECT}
          );
 
+         let total = 0;
+ 
          const transactions = result.map(transaction => {
             return {
                 id : transaction.job_id,
@@ -46,10 +48,19 @@ const getAllTransactions = async(req,res) => {
                     amount : transaction.amount
                 }
             }
-         })
+         });
+       
+       // Calculate total
+       transactions.forEach(transaction => {
+       if(transaction.transaction.status === "success"){
+             total = total + 150000
+           }
+       });
+       
          
          return res.status(201).send({
             status : "Success",
+            total : total,
             transactions : transactions
          })
 
@@ -148,31 +159,30 @@ const notification = async(req,res) => {
           if (transactionStatus == 'capture'){
               if (fraudStatus == 'challenge'){
                   updateTransaction("pending",orderId)
-                  sendEmail("pending",orderId)
+                  
                   
                   res.status(200);
               } else if (fraudStatus == 'accept'){
                 updateTransaction("success",orderId)
                 activateJob(orderId);
-                sendEmail("success",orderId)
+                
                 res.status(200);
               }
           } else if (transactionStatus == 'settlement'){
               
               updateTransaction("success",orderId);
               activateJob(orderId);
-              sendEmail("success",orderId);
+              
               res.status(200);
           } else if (transactionStatus == 'cancel' ||
             transactionStatus == 'deny' ||
             transactionStatus == 'expire'){
                updateTransaction("failed",orderId);
-               sendEmail("failed",orderId)
+      
                
                res.status(200)
           } else if (transactionStatus == 'pending'){
              updateTransaction("pending",orderId)
-             sendEmail("pending",orderId)
              res.status(200)
           }
 
