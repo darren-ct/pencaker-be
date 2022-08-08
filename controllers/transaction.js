@@ -110,7 +110,7 @@ try{
          });
         
         if(previousTransaction.status === "success" && previousJob.status === "active") {
-            return sendErr("Job already bought and still active") };
+            return sendErr("Job already bought and still active",res) };
         
         if(previousTransaction.status === "success" &&  previousJob.status === "inactive"){
             await Transaction.destroy({where:{job_id:jobId}});
