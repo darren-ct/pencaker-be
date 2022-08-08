@@ -221,19 +221,18 @@ const activateJob = async(orderId) => {
         //  30 hari timer
          setTimeout(async()=>{
 
+             setTimeout(async()=>{
                 await Job.update({
                 status : "inactive"
-             },{where:{id:jobId}});
+             },{where:{id:jobId}}); },1296000000)
          
-         },2592000000)
+         },1296000000)
 
-         return res.status(201).send({
-            status:"Success"
-         });
 
 
     } catch(err) {
-         return sendErr("Server error",res);
+
+        console.log(err)
     }
 };
 
