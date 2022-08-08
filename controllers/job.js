@@ -182,7 +182,7 @@ const retreiveJob = async(userId,jobId,res) => {
     if(userId){
     
     query = `
-    SELECT job.id AS job_id, position, location, salary_start, salary_end,
+    SELECT job.id AS job_id, position, location, salary_start, salary_end, description ,
     DAY(job.createdAt) AS day, MONTH(job.createdAt) AS month , YEAR(job.createdAt) AS year,
     user.id AS user_id , user.name , user.email, image,
     apply.member_id AS isApplied
@@ -198,7 +198,7 @@ const retreiveJob = async(userId,jobId,res) => {
     if(!userId){
 
     query = `
-    SELECT job.id AS job_id, position, location, salary_start, salary_end,
+    SELECT job.id AS job_id, position, location, salary_start, salary_end, description ,
     DAY(job.createdAt) AS day, MONTH(job.createdAt) AS month , YEAR(job.createdAt) AS year,
     user.id AS user_id , user.name , user.email, image
     FROM job INNER JOIN user
