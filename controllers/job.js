@@ -370,5 +370,28 @@ const applyJob = async(req,res) => {
 
 };
 
-module.exports = {getJob,getJobs,postJob,applyJob,getMyJobs}
+const getAppliedJobs = (req,res) => {
+    const myId = req.user.id;
+    const query = `SELECT job.* 
+    FROM job INNER JOIN apply
+    ON job.id = apply.job_id AND apply.member_id = ${myId}
+    `;
+    
+    try {
+        
+        const result = await sequelize.query(
+            query , {type:QueryTypes.SELECT}
+         );
+        
+        return res.status(201).send({
+        status : "Success",
+        jobs : result
+        })
+        
+    } catch(err) {
+          return sendErr("Server error",res)
+    };
+};
+
+module.exports = {getJob,getJobs,postJob,applyJob,getMyJobs,getAppliedJobs}
 
