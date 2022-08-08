@@ -222,6 +222,7 @@ const retreiveJob = async(userId,jobId,res) => {
            id:job.job_id,
            position: job.position,
            location: job.location,
+           description:job.description,
            salary_start : job.salary_start,
            salary_end : job.salary_end,
            post_at : `${job.day} ${getMonth(job.month)},${job.year}`,
