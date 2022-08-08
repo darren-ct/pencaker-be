@@ -370,7 +370,7 @@ const applyJob = async(req,res) => {
 
 };
 
-const getAppliedJobs = (req,res) => {
+const getAppliedJobs = async(req,res) => {
     const myId = req.user.id;
     const query = `SELECT job.* 
     FROM job INNER JOIN apply
