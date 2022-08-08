@@ -91,6 +91,38 @@ try{
         return sendErr("Job doesnt exist",res)
     }
     
+    // checking
+    const previousTransaction = await Transaction.findOne({
+        where : {
+            job_id : jobId },
+       attributes : ["status"]
+    });
+    
+
+    
+//     If
+    if(previousTransaction){
+        
+        const previousJob = await Job.findOne({
+        where : {
+            id : jobId },
+         attributes : ["status"]
+         });
+        
+        if(previousTransaction.status === "success" && previousJob.status === "active") {
+            return sendErr("Job already bought and still active") };
+        
+        if(previousTransaction.status === "success" &&  previousJob.status === "inactive"){
+            await Transaction.destroy({where:{job_id:jobId}});
+            
+        }
+        
+        if(previousTransaction.status !== "success"){
+        await Transaction.destroy({where:{job_id:jobId}}); }
+    }
+    
+    
+    
   const transaction = await Transaction.create({
       id : parseInt(jobId + Math.random().toString().slice(3,8)),
       status : "pending",
