@@ -8,8 +8,6 @@ const {sendErr} = require("../helper/other");
 
 const midTransClient = require("midtrans-client");
 const nodemailer = require("nodemailer");
-require("dotenv").config();
-
 
 const getAllTransactions = async(req,res) => {
     const query = `
