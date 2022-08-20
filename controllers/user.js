@@ -6,8 +6,6 @@ const {sendErr} = require("../helper/other");
 const fs = require('fs');
 const path = require("path"); 
 
-require("dotenv").config();
-
 const editUser = async(req,res) => {
     const userId = req.user.id;
     const{name} = req.body;
