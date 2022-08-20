@@ -8,8 +8,6 @@ const User = require("../models/User");
 const {emailChecker,minimumChecker} = require("../helper/auth");
 const {sendErr} = require("../helper/other")
 
-require("dotenv").config();
-
 const registerUser = async(req,res) => {
     const {name,email,password,status} = req.body;
      console.log(req.body)
