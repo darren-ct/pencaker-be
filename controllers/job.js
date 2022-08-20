@@ -12,8 +12,6 @@ const {getMonth} = require("../helper/other");
 var dateDifference = require('date-difference');
 
 
-require("dotenv").config();
-
 const getJobs = async(req,res) => {
 
     const position = req.query.position;
