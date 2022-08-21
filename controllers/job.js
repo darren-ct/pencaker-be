@@ -407,9 +407,12 @@ const applyJob = async(req,res) => {
 
 const getAppliedJobs = async(req,res) => {
     const myId = req.user.id;
-    const query = `SELECT job.* 
+    const query = `SELECT job.*, image
     FROM job INNER JOIN apply
     ON job.id = apply.job_id AND apply.member_id = ${myId}
+    INNER JOIN user
+    ON job.company_id = user.id
+    
     `;
     
     try {
@@ -420,7 +423,8 @@ const getAppliedJobs = async(req,res) => {
         
         return res.status(201).send({
         status : "Success",
-        jobs : result
+        jobs : result.map(item => { return {...item, image : item.image ? process.env.SERVER_URL + item.image : null } })
+                                   
         })
         
     } catch(err) {
